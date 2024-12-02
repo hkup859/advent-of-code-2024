@@ -1,5 +1,3 @@
-import listData from "./puzzle-input/list.json" with { type: "json" };
-
 const isListSafe = (list: number[]) => {
   let direction: number = 0;
   for (let i = 1; i < list.length; i++) {
@@ -20,7 +18,8 @@ const isListSafe = (list: number[]) => {
   return true;
 };
 
-const lists = listData.data;
+const inputFile = await Deno.readTextFile('./day2/puzzle-input/day2.txt')
+const lists = inputFile.split("\n")
 let safeCount = 0;
 for (let i = 0; i < lists.length; i++) {
   const splitList = lists[i].split(" ").map((x) => Number(x));
