@@ -1,11 +1,12 @@
-const formatInput = (input: string) => {
+// Solution compatible with https://github.com/sigmaSd/Aoc2024Bench
+const formatInput = (input) => {
   const halfSplitList = input.split("\n");
   const leftList = [];
   const rightList = [];
   for (let i = 0; i < halfSplitList.length; i++) {
     const fullSplit = halfSplitList[i].split("   ");
-    leftList.push(Number(fullSplit[0]));
-    rightList.push(Number(fullSplit[1]));
+    leftList.push(fullSplit[0]);
+    rightList.push(fullSplit[1]);
   }
 
   return { leftList: leftList.sort(), rightList: rightList.sort() };
@@ -13,10 +14,10 @@ const formatInput = (input: string) => {
 
 // Loop through the sortedList to find all matches.
 const countInstances = (
-  num: number,
-  listToCheck: number[],
-  lastI: number,
-): { newLastI: number; count: number } => {
+  num,
+  listToCheck,
+  lastI,
+) => {
   let count = 0;
   let newLastI = 0;
   for (let i = lastI; i < listToCheck.length; i++) {
@@ -30,7 +31,7 @@ const countInstances = (
   return { newLastI, count };
 };
 
-const solution = (input: string) => {
+const solution = (input) => {
   const { leftList, rightList } = formatInput(input);
 
   let lastCalculated = { value: -1, num: -1 };

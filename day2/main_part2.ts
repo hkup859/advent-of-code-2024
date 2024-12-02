@@ -28,18 +28,16 @@ for (let i = 0; i < lists.length; i++) {
   if (fullListResult) safeCount++;
   else {
     for (let k = 0; k < splitList.length; k++) {
-        const subsetList = ([] as number[]).concat(splitList)
-        subsetList.splice(k, 1)
+      const subsetList = ([] as number[]).concat(splitList);
+      subsetList.splice(k, 1);
 
-        const subsetResult = isListSafe(subsetList);
-        if (subsetResult) {
-            k = Infinity
-            safeCount++
-        }
+      const subsetResult = isListSafe(subsetList);
+      if (subsetResult) {
+        k = Infinity;
+        safeCount++;
+      }
     }
   }
-  
-  
 }
 
 console.log("Safe Count: ", safeCount);
