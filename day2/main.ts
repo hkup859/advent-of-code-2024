@@ -18,8 +18,8 @@ const isListSafe = (list: number[]) => {
   return true;
 };
 
-const inputFile = await Deno.readTextFile('./day2/puzzle-input/day2.txt')
-const lists = inputFile.split("\n")
+const inputFile = await Deno.readTextFile("./day2/puzzle-input/day2.txt");
+const lists = inputFile.split("\n");
 let safeCount = 0;
 for (let i = 0; i < lists.length; i++) {
   const splitList = lists[i].split(" ").map((x) => Number(x));
