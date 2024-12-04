@@ -1,6 +1,5 @@
-const inputText = await Deno.readTextFile("./day4/puzzle-input/full_input.txt");
-
-const solution = (input: string) => {
+// Solution compatible with https://github.com/sigmaSd/Aoc2024Bench
+const solution = (input) => {
   const fullText = input.split("\n").join(",");
   const lineLength = fullText.indexOf(",");
 
@@ -44,5 +43,3 @@ const solution = (input: string) => {
     DIAGONAL_DOWN_RIGHT.length + DIAGONAL_DOWN_LEFT.length +
     DIAGONAL_UP_RIGHT.length + DIAGONAL_UP_LEFT.length;
 };
-
-console.log("Answer: ", solution(inputText));
