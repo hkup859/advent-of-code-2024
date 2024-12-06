@@ -1,99 +1,59 @@
 const inputText = await Deno.readTextFile("./day6/puzzle-input/full_input.txt");
 
 const formatInput = (input: string) => {
-  return input.split('\n').map(x => x.split(''))
+  return input.split("\n").map((x) => x.split(""));
 };
 
-const GUARD_CHARS = ['^', '>', 'v', '<'] // in order
-const ITEM_CHAR = '#'
+const GUARD_CHARS = ["^", ">", "v", "<"]; // in order
+const ITEM_CHAR = "#";
 
 const moveGrid = (grid: string[][]) => {
-    let stop = false
-    for (let i = 0; i < grid.length; i++) {
-        const row = grid[i]
-        for (let k = 0; k < row.length; k++) {
-            let currentPosition = row[k]
-            if (GUARD_CHARS.includes(currentPosition)) {
-                // console.log("FOUND: ", i, k)
-                let spotToMove
-                if (currentPosition === GUARD_CHARS[0]) {
-                    // Check up
-                    spotToMove = [i-1, k]
-                } else if (currentPosition === GUARD_CHARS[1]) {
-                    // Check right
-                    spotToMove = [i, k+1]
-                } else if (currentPosition === GUARD_CHARS[2]) {
-                    // Check down
-                    spotToMove = [i+1, k]
-                } else {
-                    // Check left
-                    spotToMove = [i, k-1]
-                }
+  let stop = false;
+  for (let i = 0; i < grid.length; i++) {
+    const row = grid[i];
+    for (let k = 0; k < row.length; k++) {
+      const currentPosition = row[k];
+      if (GUARD_CHARS.includes(currentPosition)) {
+        let spotToMove;
+        if (currentPosition === GUARD_CHARS[0]) spotToMove = [i - 1, k]; // Up
+        else if (currentPosition === GUARD_CHARS[1]) spotToMove = [i, k + 1]; // Right
+        else if (currentPosition === GUARD_CHARS[2]) spotToMove = [i + 1, k]; // Down
+        else spotToMove = [i, k - 1]; // Left
 
-                // console.log("spotToMove: ", spotToMove)
-
-                // Is map over?
-                if (spotToMove[0] < 0 || spotToMove[1] < 0 || spotToMove[0] > grid.length-1 || spotToMove[1] > row.length-1) {
-                    console.log("GAME OVER: ", spotToMove)
-                    return { grid, finish: true}
-                }
-
-                // Is object in our way?
-                else if (grid[spotToMove[0]][spotToMove[1]] === '#') {
-                    grid[i][k] = GUARD_CHARS[(GUARD_CHARS.indexOf(currentPosition)+1)%4]
-                }
-
-                else {
-                    // console.log("HERE: ", grid[spotToMove[0]][spotToMove[1]])
-                    grid[spotToMove[0]][spotToMove[1]] = currentPosition
-                    grid[i][k] = '@'
-                }
-                stop = true
-                // console.log("STOP")
-                break
-            }
-            // console.log("K")
+        // Will we move off map?
+        if (
+          spotToMove[0] < 0 || spotToMove[1] < 0 ||
+          spotToMove[0] > grid.length - 1 || spotToMove[1] > row.length - 1
+        ) return { grid, finish: true };
+        // Is an object in our way?
+        else if (grid[spotToMove[0]][spotToMove[1]] === ITEM_CHAR) {
+          grid[i][k] =
+            GUARD_CHARS[(GUARD_CHARS.indexOf(currentPosition) + 1) % 4];
+        } else {
+          grid[spotToMove[0]][spotToMove[1]] = currentPosition;
+          grid[i][k] = "@";
         }
-        // console.log("I: ", stop)
-        // break
-        if (stop) break
-        
+        stop = true;
+        break;
+      }
     }
-    // console.log("RETURN")
-    return { grid, finish: false}
-}
+    if (stop) break;
+  }
+  return { grid, finish: false };
+};
 
 const solution = (input: string) => {
-    const grid = formatInput(input)
-    
-    // console.log("START grid: ", '\n', grid.join('\n'))
-    
+  const grid = formatInput(input);
+  let iGrid = grid;
 
-    // console.log("------")
-    let iGrid = grid
-    for (let i = 0; i < 55000; i++) {
-        const results = moveGrid(iGrid)
-        if (results.finish) return results.grid.flat().filter(x => x === '@').length+1
-        iGrid = results.grid
-        // console.log("NEW grid: ", '\n',iGrid.join('\n'))
+  // Ensures we never enter an infinite loop
+  for (let i = 0; i < 500000; i++) {
+    const results = moveGrid(iGrid);
+    if (results.finish) {
+      return results.grid.flat().filter((x) => x === "@").length + 1;
     }
-    
-    
+    iGrid = results.grid;
+  }
 };
 
 console.log("Answer: ", solution(inputText));
-
-/*
-
-....#.....
-.........#
-..........
-..#.......
-.......#..
-..........
-.#..^.....
-........#.
-#.........
-......#...
-
-*/
