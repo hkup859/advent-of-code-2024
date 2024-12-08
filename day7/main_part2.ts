@@ -13,9 +13,17 @@ const formatInput = (input: string) => {
 // Idea 1 - Could create a list of string permuations and process them using eval.
 // Idea 2 (Went with this) - Since we only need if the value is correct, just process as we go, keeping track of the value until the end.
 const canAnswer = (nums: number[], answer: number) => {
-  let workingValues = [nums[0] * nums[1], nums[0] + nums[1]];
+  let workingValues = [
+    nums[0] * nums[1],
+    nums[0] + nums[1],
+    Number(nums[0].toString() + nums[1].toString()),
+  ];
   for (let i = 2; i < nums.length; i++) {
-    workingValues = workingValues.map((x) => [x * nums[i], x + nums[i]]).flat();
+    workingValues = workingValues.map((x) => [
+      x * nums[i],
+      x + nums[i],
+      Number(x.toString() + nums[i].toString()),
+    ]).flat();
   }
   return workingValues.includes(answer);
 };
