@@ -57,12 +57,12 @@ const findPositionsTraveled = (grid: string[][]) => {
 
 // TODO - add a detection for infinite loop. Current brute forcing process is horribly inefficient and technically could have loopholes
 const processMapRun = (grid: string[][]) => {
-    // Idea 1 - if you have moved total grid size spaces all on @ spaces -> 130*130 = 16k. Still very slow
-    // Idea 2 - Count turns and if you have touched a new space. If your direction has changed 4 times and all the spaces you touched are used, then it's a loop. -> Close but no.
-    // Idea 3 - Track spaces traveled & combine with Idea 2. If we have turned 4 times on all used spaces, check the traveled spaces to see if we have repeated the exact same loop. Might have a small loophole, run twice?
-    let spacesTraveled = []
-    let turns = 0
-    let touchedNewSpace = true
+  // Idea 1 - if you have moved total grid size spaces all on @ spaces -> 130*130 = 16k. Still very slow
+  // Idea 2 - Count turns and if you have touched a new space. If your direction has changed 4 times and all the spaces you touched are used, then it's a loop. -> Close but no.
+  // Idea 3 - Track spaces traveled & combine with Idea 2. If we have turned 4 times on all used spaces, check the traveled spaces to see if we have repeated the exact same loop. Might have a small loophole, run twice?
+  let spacesTraveled = [];
+  let turns = 0;
+  let touchedNewSpace = true;
   for (let i = 0; i < 50000; i++) {
     const results = moveGrid(grid);
     if (results.finish) {
@@ -89,7 +89,10 @@ const solution = (input: string) => {
 
     // Loop through positions for obstructions
     positionsTraveled.forEach((position, index) => {
-        console.log("Percentage: ", `${(((index+1)/positionsTraveled.length)*100).toFixed(2)}%`)
+      console.log(
+        "Percentage: ",
+        `${(((index + 1) / positionsTraveled.length) * 100).toFixed(2)}%`,
+      );
       // const position = [6, 3]
       //     console.log("Position: ", position)
       const tempGrid = JSON.parse(JSON.stringify(grid));
@@ -102,7 +105,7 @@ const solution = (input: string) => {
       }
     });
   }
-  return totalChoices
+  return totalChoices;
 };
 
 console.log("Answer: ", solution(inputText));
